@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        int n = 43;
+        int n = 10000;
         int[] memoizedArray = new int[n + 1];
         long start = System.currentTimeMillis();
         System.out.println(fibMem(n, memoizedArray));   //fibonacci memoization
@@ -10,6 +10,11 @@ public class Main {
 
         start = System.currentTimeMillis();
         System.out.println(fibTab(n));  // fibonacci Tabulated
+        end = System.currentTimeMillis();
+        System.out.println("Time: " + (end - start) + "ms");
+
+        start = System.currentTimeMillis();
+        System.out.println(fibSlider(n));  // fibonacci Tabulated
         end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start) + "ms");
     }
@@ -56,5 +61,20 @@ public class Main {
         }
 
         return f[num];
+    }
+
+    // Sliding window approach that uses constant space
+    public static int fibSlider(int num) {
+        int[] slider = new int[2];
+        slider[0] = 0; // f[0] : known
+        slider[1] = 1; // f[1] : known
+
+        for (int noOfSlides = 0; noOfSlides < num; noOfSlides++) {
+            int newFib = slider[0] + slider[1]; // calculate fibonacci using the slider values
+            slider[0] = slider[1];              // update and move the slider
+            slider[1] = newFib;                 // one window ahead
+        }
+
+        return slider[0];
     }
 }
